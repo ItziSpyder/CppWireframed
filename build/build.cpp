@@ -10,10 +10,23 @@ const vector<string> exclude_dirs = {
     "lib", 
     "build" 
 };
+const vector<string> target_file_types = {
+    ".cpp",
+    ".hpp",
+    ".h",
+    ".c"
+};
 
 bool is_excluded(filesystem::directory_entry file) {
     for (string dir : exclude_dirs)
         if (file.path().filename() == dir)
+            return true;
+    return false;
+}
+
+bool is_target_file(filesystem::directory_entry file) {
+    for (string ext : target_file_types)
+        if (file.path().extension() == ext)
             return true;
     return false;
 }
@@ -25,7 +38,7 @@ void find_src(string root, vector<string> &files, string file) {
         if (file.is_directory() && !is_excluded(file)) {
             find_src(root, files, path);
         } 
-        else if (file.path().extension() == ".cpp" || file.path().extension() == ".h" || file.path().extension() == ".c") {
+        else if (is_target_file(file)) {
             files.push_back("\"" + path + "\"");
             cout << "<< " << path.replace(0, root.length() + 1, "") << endl;
         }
