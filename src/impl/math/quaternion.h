@@ -16,7 +16,7 @@ public:
     Quaternion norm() const;
     Quaternion inv() const;
 
-    Quaternion operator*(const Quaternion&) const;
+    Quaternion operator * (const Quaternion&) const;
 };
 
 #endif // QUATERNION_H
